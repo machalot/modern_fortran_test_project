@@ -17,13 +17,24 @@ real(dp), dimension(4), public :: p
 real(dp), dimension(:), allocatable, public :: r, t
 real(dp), dimension(3,3), public :: v, x
 
-interface
-  module subroutine dummy(a,b)
+!interface dummy
+!    module procedure idummy
+!    module procedure ddummy
+!end interface dummy
+
+interface dummy
+  module subroutine idummy(a,b)
     implicit none
     integer, intent(in) :: a
     integer, intent(out) :: b
-  end subroutine dummy
-end interface
+  end subroutine idummy
+
+  module subroutine ddummy(a,b)
+    implicit none
+    real(dp), intent(in) :: a
+    real(dp), intent(out) :: b
+  end subroutine ddummy
+end interface dummy
 
 ! create generic procedure interface to handle various input argument types
 public :: halfmag

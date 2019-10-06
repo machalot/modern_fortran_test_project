@@ -55,4 +55,5 @@ write(*,'(a/,3(a,i2/,4(g24.18/)/))') 'matrix:   ',(' col:',i,[v(:,i),w(i)], i=1,
 write(*,'(a/,3(a,i2/,4(g24.18/)/))') 'matrix:   ',(' col:',i,[x(:,i),y(i)], i=1,3) ! implicit do loop
 
 deallocate(r)
+
 end program testproj

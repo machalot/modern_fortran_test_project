@@ -1,19 +1,19 @@
 # Find all source files, create a list of corresponding object files
-SRCS := $(wildcard *.f90)
-OBJS := $(patsubst %.f90,%.o,$(SRCS))
-OBJDIR := obj
-BINDIR := bin
-MODDIR := mod
+SRCS    := $(wildcard *.f90)
+OBJS    := $(patsubst %.f90,%.o,$(SRCS))
+OBJDIR  := obj
+BINDIR  := bin
+MODDIR  := mod
 BLDDIRS := $(OBJDIR) $(MODDIR)
 
 # Ditto for mods (They will be in both lists)
-MODS := $(wildcard *mod*.f90)
-MOD_OBJS := $(patsubst %.f90,%.o,$(MODS))
-SMODS := $(wildcard *submod*.f90)
+MODS      := $(wildcard *mod*.f90)
+MOD_OBJS  := $(patsubst %.f90,%.o,$(MODS))
+SMODS     := $(wildcard *submod*.f90)
 SMOD_OBJS := $(patsubst %.f90,%.o,$(SMODS))
 
 # Compiler/Linker settings
-FC := gfortran
+FC      := gfortran
 FLFLAGS := -g
 FCFLAGS := -g -c -J$(MODDIR) -Wall -Wextra -Wconversion -Og -pedantic -fcheck=bounds -fmax-errors=5
 PROGRAM := testproj
@@ -28,8 +28,11 @@ $(OBJDIR)/%.o : %.f90 | $(BLDDIRS)
 
 # Compiler steps for all module files
 $(MODDIR)/%.mod : %.f90 | $(BLDDIRS)
-	@echo "Remaking $@..."
 	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.mod,%.o,$@)) $<
+
+# Compiler steps for all module files
+$(MODDIR)/%.smod : %.f90 | $(BLDDIRS)
+	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.smod,%.o,$@)) $<
 
 # Linker
 $(PROGRAM) : $(addprefix $(OBJDIR)/,$(OBJS)) | $(BINDIR)
@@ -70,8 +73,9 @@ clean:
 # Dependencies
 
 # Main program depends on all modules
-$(PRG_OBJ) : $(MOD_OBJS)
+$(PRG_OBJ) : $(MOD_OBJS) 
 
 # Module dependency
+$(OBJDIR)/demosubmod.o : $(MODDIR)/demomodule.smod
 $(OBJDIR)/demomodule.o : $(MODDIR)/vecmodule.mod
-$(OBJDIR)/main.o : $(MODDIR)/demomodule.mod
+$(OBJDIR)/main.o       : $(MODDIR)/demomodule.mod
