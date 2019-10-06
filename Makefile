@@ -15,7 +15,7 @@ SMOD_OBJS := $(patsubst %.f90,%.o,$(SMODS))
 # Compiler/Linker settings
 FC      := gfortran
 FLFLAGS := -g
-FCFLAGS := -g -c -J$(MODDIR) -Wall -Wextra -Wconversion -Og -pedantic -fcheck=bounds -fmax-errors=5
+FCFLAGS := -c -J$(MODDIR) -Wall -Wextra -Wconversion -O3 -pedantic -fcheck=bounds -fmax-errors=5
 PROGRAM := testproj
 PRG_OBJ := $(PROGRAM).o
 
@@ -68,7 +68,9 @@ clean:
 	rm -rf $(wildcard $(addprefix $(MODDIR)/,*@$(patsubst %.o,%.smod,$(SMOD_OBJS))))
 	rm -rf $(BINDIR) $(OBJDIR) $(MODDIR)
 
-.PHONY: debug default clean dirs
+re: clean default
+	
+.PHONY: debug default clean re
 
 # Dependencies
 
