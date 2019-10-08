@@ -14,25 +14,25 @@ SMOD_OBJS := $(patsubst %.f90,%.o,$(SMODS))
 
 # Compiler/Linker settings
 FC      := gfortran
-FLFLAGS := -g
-FCFLAGS := -c -J$(MODDIR) -Wall -Wextra -Wconversion -O3 -pedantic -fcheck=bounds -fmax-errors=5
+FLFLAGS := 
+FCFLAGS := -c -J$(MODDIR) -Wall -Wextra -Wconversion -O2 -pedantic -fcheck=bounds -fmax-errors=5
 PROGRAM := testproj
 PRG_OBJ := $(PROGRAM).o
 
 # make without parameters will make first target found.
 default : $(PROGRAM)
 
-# Compiler steps for all objects
-$(OBJDIR)/%.o : %.f90 | $(BLDDIRS)
-	$(FC) $(FCFLAGS) -o $@ $<
+# Compiler steps for all objects, modules, and submodules
+$(OBJDIR)/%.o $(MODDIR)/%.mod $(MODDIR)/%.smod : %.f90 | $(BLDDIRS)
+	$(FC) $(FCFLAGS) -o $(OBJDIR)/$*.o $< 
 
-# Compiler steps for all module files
-$(MODDIR)/%.mod : %.f90 | $(BLDDIRS)
-	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.mod,%.o,$@)) $<
-
-# Compiler steps for all module files
-$(MODDIR)/%.smod : %.f90 | $(BLDDIRS)
-	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.smod,%.o,$@)) $<
+## Compiler steps for all module files
+#$(MODDIR)/%.mod : %.f90 | $(BLDDIRS)
+#	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.mod,%.o,$@)) $<
+#
+## Compiler steps for all module files
+#$(MODDIR)/%.smod : %.f90 | $(BLDDIRS)
+#	$(FC) $(FCFLAGS) -o $(subst $(MODDIR)/,$(OBJDIR)/,$(patsubst %.smod,%.o,$@)) $<
 
 # Linker
 $(PROGRAM) : $(addprefix $(OBJDIR)/,$(OBJS)) | $(BINDIR)
