@@ -15,7 +15,7 @@ SMOD_OBJS := $(patsubst %.f90,%.o,$(SMODS))
 # Compiler/Linker settings
 FC      := gfortran
 FLFLAGS := 
-FCFLAGS := -c -J$(MODDIR) -Wall -Wextra -Wconversion -O2 -pedantic -fcheck=bounds -fmax-errors=5
+FCFLAGS := -c -J$(MODDIR) -Wall -Wextra -O2 -pedantic -fcheck=bounds -fmax-errors=5
 PROGRAM := testproj
 PRG_OBJ := $(PROGRAM).o
 
@@ -40,11 +40,11 @@ $(PROGRAM) : $(addprefix $(OBJDIR)/,$(OBJS)) | $(BINDIR)
 
 # Rules to create directories if necessary
 $(OBJDIR):
-	mkdir -p $(OBJDIR) 
+	@mkdir -p $(OBJDIR) 
 $(MODDIR):
-	mkdir -p $(MODDIR)
+	@mkdir -p $(MODDIR)
 $(BINDIR):
-	mkdir -p $(BINDIR)
+	@mkdir -p $(BINDIR)
 
 # If something doesn't work right, have a 'make debug' to 
 # show what each variable contains.
