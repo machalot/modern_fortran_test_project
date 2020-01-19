@@ -1,5 +1,4 @@
 module demomodule
-!use dpmodule  ! module dependency
 use, intrinsic :: iso_fortran_env, dp => real64
 use vecmodule ! module dependency
 
