@@ -1,5 +1,6 @@
+! Module to demonstrate modern Fortran features
 module demomodule
-use, intrinsic :: iso_fortran_env, dp => real64
+  use, intrinsic :: iso_fortran_env, dp => real64
 use vecmodule ! module dependency
 
 implicit none
