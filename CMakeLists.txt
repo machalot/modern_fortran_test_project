@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.10.2)
 project(testproj Fortran)
 
 # add the executable
-add_executable(testproj main.f90 vecmodule.f90 demomodule.f90 demosubmod.f90)
+add_executable(a.out main.f90 vecmodule.f90 demomodule.f90 demosubmod.f90)
