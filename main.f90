@@ -1,5 +1,5 @@
 program testproj
-!use dpmodule    ! contains type/kind parameters
+use iso_fortran_env, only : stdout => output_unit, stderr => input_unit
 use demomodule, only : dp, a, c, e, g, p, r, t, v, x, halfmag ! global variables and procedures
 
 ! local variables
@@ -53,6 +53,8 @@ write(*,*) 'expalary: ',r,s
 write(*,*) 'impalary: ',t,u
 write(*,'(a/,3(a,i2/,4(g24.18/)/))') 'matrix:   ',(' col:',i,[v(:,i),w(i)], i=1,3) ! implicit do loop
 write(*,'(a/,3(a,i2/,4(g24.18/)/))') 'matrix:   ',(' col:',i,[x(:,i),y(i)], i=1,3) ! implicit do loop
+flush(stdout)
+flush(stderr)
 
 deallocate(r)
 
